@@ -3,9 +3,9 @@
 Sistema de gerenciamento de vagas de estágio, desenvolvido em Java 17 com PostgreSQL.
 
 ## Integrantes
-Camila Andrade Parolin RA: 10425480
-Enzo de Paula Souza RA: 10752714
-Erica Gonçalves de Oliveira RA: 10428547
+- Camila Andrade Parolin RA: 10425480
+- Enzo de Paula Souza RA: 10752714
+- Erica Gonçalves de Oliveira RA: 10428547
 
 ## Banco de dados
 
