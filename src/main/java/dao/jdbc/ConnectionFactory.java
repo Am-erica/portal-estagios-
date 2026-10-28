@@ -8,9 +8,9 @@ import java.sql.SQLException;
 public class ConnectionFactory {
 
     private static final String URL =
-            "jdbc:postgresql://localhost:5432/portal_estagios";
-    private static final String USUARIO = "portal_user";
-    private static final String SENHA = "portal123";
+            "jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:5432/postgres";
+    private static final String USUARIO = "postgres.dmuqkickdxdnjcpdtxoe";
+    private static final String SENHA = "INSERIR-SENHA";
 
     public static Connection obterConexao() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, SENHA);
