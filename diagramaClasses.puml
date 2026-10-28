@@ -1,0 +1,133 @@
+@startuml
+title Portal de Estagios - Diagrama de Classes
+hide empty methods
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' =========================
+' ENUMS
+' =========================
+
+enum Perfil {
+  ESTUDANTE
+  EMPRESA
+  ADMINISTRADOR
+}
+
+enum Modalidade {
+  PRESENCIAL
+  REMOTA
+  HIBRIDA
+}
+
+enum SituacaoVaga {
+  ABERTA
+  ENCERRADA
+}
+
+' =========================
+' CLASSES DO DOMINIO
+' =========================
+
+class Usuario {
+  - id: Long
+  - nome: String
+  - email: String
+  - perfil: Perfil
+  - curso: String
+  - nomeEmpresa: String
+}
+
+class Area {
+  - id: Long
+  - nome: String
+}
+
+class Vaga {
+  - id: Long
+  - titulo: String
+  - descricao: String
+  - localizacao: String
+  - modalidade: Modalidade
+  - cargaHorariaSemanal: int
+  - situacao: SituacaoVaga
+}
+
+class Candidatura {
+  - id: Long
+  - dataInscricao: LocalDateTime
+}
+
+' =========================
+' RELACIONAMENTOS
+' =========================
+
+' Uma empresa pode publicar varias vagas.
+' Cada vaga pertence a uma empresa.
+Usuario "1" -- "0..*" Vaga : publica >
+
+' Cada vaga pertence a uma area.
+' Uma area pode estar associada a varias vagas.
+Area "1" -- "0..*" Vaga : classifica >
+
+' Um estudante pode realizar varias candidaturas.
+' Cada candidatura pertence a um estudante.
+Usuario "1" -- "0..*" Candidatura : realiza >
+
+' Uma vaga pode receber varias candidaturas.
+' Cada candidatura refere-se a uma vaga.
+Vaga "1" -- "0..*" Candidatura : recebe >
+
+' =========================
+' TIPOS DOS ATRIBUTOS
+' =========================
+
+Usuario ..> Perfil
+Vaga ..> Modalidade
+Vaga ..> SituacaoVaga
+
+note right of Usuario
+  Regras:
+  - email unico
+  - perfil define as permissoes
+  - curso para estudante
+  - nomeEmpresa para empresa
+end note
+
+note right of Area
+  Regras:
+  - nome unico
+  - somente administrador
+    cadastra e edita
+  - nao excluir se estiver
+    vinculada a uma vaga
+end note
+
+note right of Vaga
+  Regras:
+  - carga horaria > 0
+  - empresa responsavel deve
+    ter perfil EMPRESA
+  - somente a empresa
+    responsavel pode editar
+    ou encerrar
+  - vaga encerrada nao recebe
+    novas candidaturas
+end note
+
+note right of Candidatura
+  Regras:
+  - somente estudante pode
+    se candidatar
+  - vaga deve estar aberta
+  - nao repetir o par
+    estudante + vaga
+  - preservar candidaturas
+    apos encerrar a vaga
+end note
+
+note bottom of Candidatura
+  Restricao de unicidade:
+  (estudante_id, vaga_id)
+end note
+@enduml
